@@ -21,7 +21,7 @@ def index():
 
 @app.route('/login')
 def login():
-    scope = 'user-read-private user-read-email'
+    scope = 'user-read-private user-read-email user-read-recently-played user-top-read user-read-playback-position'
     
     params = {
         "client_id": CLIENT_ID,
@@ -57,7 +57,8 @@ def callback():
         session['refresh_token'] =  token_info['refresh_token']
         session['expires_at'] = datetime.now().timestamp() + token_info['expires_in']
         
-        return redirect('/playlists')
+        return redirect('/topsongs')
+        #return redirect('/playlists')
     
     
 @app.route('/playlists')
@@ -98,6 +99,23 @@ def refresh_token():
     session['expires_at'] = datetime.now().timestamp() + new_token_info['expires_in']
     
     return redirect('/playlists')
+
+@app.route('/topsongs')
+def get_top_songs():
+    if 'access_token' not in session:
+        return redirect('/login')
+    
+    if datetime.now().timestamp() > session['expires_at']:
+        return redirect('/refresh-token')
+    
+    headers = {
+        'Authorization': f"Bearer {session['access_token']}"
+    }
+    
+    response = requests.get(API_BASE_URL + "me/top/tracks", headers=headers)
+    tracks = response.json()
+    
+    return jsonify(tracks)
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', debug=True)
