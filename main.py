@@ -2,9 +2,9 @@ import requests
 import urllib.parse
 
 from datetime import datetime, timedelta
-from flask import Flask, redirect, request, jsonify, session
+from flask import Flask, redirect, request, jsonify, session, render_template
 
-app = Flask(__name__)
+app = Flask(__name__, static_url_path='/static')
 app.secret_key = "1231231231231"
 
 CLIENT_ID = "8782189721584222a5fec8051ba70281"
@@ -17,7 +17,7 @@ API_BASE_URL = "https://api.spotify.com/v1/"
 
 @app.route('/')
 def index():
-    return "Welcome to my Spotify app <a href='/login'>Login with Spotify</a>"
+    return render_template('index.html')
 
 @app.route('/login')
 def login():
@@ -57,7 +57,8 @@ def callback():
         session['refresh_token'] =  token_info['refresh_token']
         session['expires_at'] = datetime.now().timestamp() + token_info['expires_in']
         
-        return redirect('/topsongs')
+        return redirect('/menu')
+        #return redirect('/topsongs')
         #return redirect('/playlists')
     
     
@@ -100,8 +101,8 @@ def refresh_token():
     
     return redirect('/playlists')
 
-@app.route('/topsongs')
-def get_top_songs():
+@app.route('/tracks')
+def get_top_tracks():
     if 'access_token' not in session:
         return redirect('/login')
     
@@ -116,6 +117,33 @@ def get_top_songs():
     tracks = response.json()
     
     return jsonify(tracks)
+
+@app.route('/artists')
+def get_top_artists():
+    if 'access_token' not in session:
+        return redirect('/login')
+    
+    if datetime.now().timestamp() > session['expires_at']:
+        return redirect('/refresh-token')
+    
+    headers = {
+        'Authorization': f"Bearer {session['access_token']}"
+    }
+    
+    response = requests.get(API_BASE_URL + "me/top/artists", headers=headers)
+    tracks = response.json()
+    return render_template('artists.html', artists=tracks)
+
+@app.route('/menu')
+def menu():
+    if 'access_token' not in session:
+        return redirect('/login')
+    
+    if datetime.now().timestamp() > session['expires_at']:
+        return redirect('/refresh-token')
+    
+    return render_template('menu.html')
+    
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', debug=True)

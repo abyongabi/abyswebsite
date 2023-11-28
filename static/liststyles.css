@@ -1,0 +1,43 @@
+body {
+    background-color: #6E7E85;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    margin: 0;
+    flex-direction: column;
+}
+
+h1 {
+    color: #96BDC6;
+    font-family: Georgia, 'Times New Roman', Times, serif;
+    text-align: center;
+}
+
+ul {
+    list-style: none;
+    padding: 0;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+li {
+    margin: 10px;
+    text-align: center;
+}
+
+a {
+    text-decoration: none;
+    color: #1C0F13;
+}
+
+a:hover {
+    color: #555;
+}
+
+p {
+    color: #96BDC6;
+    font-family: Georgia, 'Times New Roman', Times, serif;
+    text-align: center;
+}

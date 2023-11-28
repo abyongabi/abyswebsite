@@ -1,0 +1,32 @@
+body {
+    background-color: #81968F;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    margin: 0;
+    flex-direction: column;
+}
+
+h1, p {
+    color: #503E2E;
+    font-family: Georgia, 'Times New Roman', Times, serif;
+    text-align: center;
+}
+
+a.button {
+    display: inline-block;
+    padding: 15px 25px;
+    background-color: #96BDC6;
+    color: #548072;
+    text-decoration: none;
+    font-family: Georgia, 'Times New Roman', Times, serif;
+    text-align: center;
+    font-size: 16px;
+    border-radius: 30px;
+    transition: background-color 0.3s ease;
+}
+
+a.button:hover {
+    background-color: #555;
+}
