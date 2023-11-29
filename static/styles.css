@@ -10,7 +10,7 @@ body {
 
 h1, p {
     color: #503E2E;
-    font-family: Georgia, 'Times New Roman', Times, serif;
+    font-family: 'Lucida Grande';
     text-align: center;
 }
 
@@ -20,7 +20,7 @@ a.button {
     background-color: #96BDC6;
     color: #548072;
     text-decoration: none;
-    font-family: Georgia, 'Times New Roman', Times, serif;
+    font-family: 'Lucida Grande';
     text-align: center;
     font-size: 16px;
     border-radius: 30px;

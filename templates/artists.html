@@ -3,20 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='liststyles.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles.css') }}">
     <title>Top Artists</title>
 </head>
 <body>
-    <h1>Top Artists</h1>
-    <ul>
-        {% for artist in artists['items'] %}
-            <li>
-                <a href="{{ artist.external_urls.spotify }}" target="_blank">
-                    <img src="{{ artist.images[0].url }}" alt="{{ artist.name }}" width="100" height="100">
-                </a>
-                <p>{{ artist.name }}</p>
-            </li>
-        {% endfor %}
-    </ul>
+    <h1>Pick One!</h1>
+    <p><a href="/artists/long" class="button">All Time Favourite</a></p>
+    <p><a href="/artists/medium" class="button">Memories From Before</a></p>
+    <p><a href="/artists/short" class="button">Recent Artists</a></p>
+    <p><a href="/menu" class="button">Back</a></p>
 </body>
 </html>

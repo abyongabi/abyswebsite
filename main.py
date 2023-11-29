@@ -58,8 +58,6 @@ def callback():
         session['expires_at'] = datetime.now().timestamp() + token_info['expires_in']
         
         return redirect('/menu')
-        #return redirect('/topsongs')
-        #return redirect('/playlists')
     
     
 @app.route('/playlists')
@@ -103,6 +101,10 @@ def refresh_token():
 
 @app.route('/tracks')
 def get_top_tracks():
+    return render_template('tracks.html')
+
+@app.route('/tracks/long')
+def get_top_tracks_long():
     if 'access_token' not in session:
         return redirect('/login')
     
@@ -113,13 +115,48 @@ def get_top_tracks():
         'Authorization': f"Bearer {session['access_token']}"
     }
     
-    response = requests.get(API_BASE_URL + "me/top/tracks", headers=headers)
+    response = requests.get(API_BASE_URL + "me/top/tracks?time_range=long_term&limit=50", headers=headers)
     tracks = response.json()
-    
-    return jsonify(tracks)
+    return render_template('tracks_disp.html', tracks=tracks, cat_tracks='All Time Favourites')   
 
+@app.route('/tracks/medium')
+def get_top_tracks_medium():
+    if 'access_token' not in session:
+        return redirect('/login')
+    
+    if datetime.now().timestamp() > session['expires_at']:
+        return redirect('/refresh-token')
+    
+    headers = {
+        'Authorization': f"Bearer {session['access_token']}"
+    }
+    
+    response = requests.get(API_BASE_URL + "me/top/tracks?time_range=medium_term&limit=50", headers=headers)
+    tracks = response.json()
+    return render_template('tracks_disp.html', tracks=tracks, cat_tracks='Memories From Before')    
+
+@app.route('/tracks/short')
+def get_top_tracks_short():
+    if 'access_token' not in session:
+        return redirect('/login')
+    
+    if datetime.now().timestamp() > session['expires_at']:
+        return redirect('/refresh-token')
+    
+    headers = {
+        'Authorization': f"Bearer {session['access_token']}"
+    }
+    
+    response = requests.get(API_BASE_URL + "me/top/tracks?time_range=short_term&limit=50", headers=headers)
+    tracks = response.json()
+    return render_template('tracks_disp.html', tracks=tracks, cat_tracks='Recent Tracks')  
+  
 @app.route('/artists')
 def get_top_artists():
+    return render_template('artists.html')
+
+@app.route('/artists/long')
+def get_top_artists_long():
     if 'access_token' not in session:
         return redirect('/login')
     
@@ -130,9 +167,43 @@ def get_top_artists():
         'Authorization': f"Bearer {session['access_token']}"
     }
     
-    response = requests.get(API_BASE_URL + "me/top/artists", headers=headers)
-    tracks = response.json()
-    return render_template('artists.html', artists=tracks)
+    response = requests.get(API_BASE_URL + "me/top/artists?time_range=long_term&limit=50", headers=headers)
+    artists = response.json()
+    return render_template('artists_disp.html', artists=artists, cat_artists="All Time Favourite")
+
+@app.route('/artists/medium')
+def get_top_artists_medium():
+    if 'access_token' not in session:
+        return redirect('/login')
+    
+    if datetime.now().timestamp() > session['expires_at']:
+        return redirect('/refresh-token')
+    
+    headers = {
+        'Authorization': f"Bearer {session['access_token']}"
+    }
+    
+    response = requests.get(API_BASE_URL + "me/top/artists?time_range=medium_term&limit=50", headers=headers)
+    artists = response.json()
+    return render_template('artists_disp.html', artists=artists, cat_artists="Memories From Before")
+
+@app.route('/artists/short')
+def get_top_artists_short():
+    if 'access_token' not in session:
+        return redirect('/login')
+    
+    if datetime.now().timestamp() > session['expires_at']:
+        return redirect('/refresh-token')
+    
+    headers = {
+        'Authorization': f"Bearer {session['access_token']}"
+    }
+    
+    response = requests.get(API_BASE_URL + "me/top/artists?time_range=short_term&limit=50", headers=headers)
+    artists = response.json()
+    return render_template('artists_disp.html', artists=artists, cat_artists="Recent Artists")
+
+
 
 @app.route('/menu')
 def menu():
