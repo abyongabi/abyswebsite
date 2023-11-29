@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='playback.css') }}">
+    <title>Recent Playbacks</title>
+</head>
+<body>
+    <h1>Recent Playbacks</h1>
+    <div class="container">
+        {% for ls in playback['items'] %}
+            <li>
+                <iframe style="border-radius:12px" src="https://open.spotify.com/embed/track/{{ls.track.id}}?utm_source=generator" width="50%" height="30%" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+                <h3 class="pb_tn">{{ls.track.name}} - {{ls.track.album.artists[0].name}}</h3>
+                <h3 class="pb_an">Date Released: {{ls.track.album.release_date}}</h3>
+   
+            </li>           
+        {% endfor %}
+    </div>
+    <a href="/menu" class="button">Back</a>
+    
+</body>
+</html>

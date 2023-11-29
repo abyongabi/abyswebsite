@@ -204,6 +204,22 @@ def get_top_artists_short():
     return render_template('artists_disp.html', artists=artists, cat_artists="Recent Artists")
 
 
+@app.route('/playback')
+def get_playback():
+    if 'access_token' not in session:
+        return redirect('/login')
+    
+    if datetime.now().timestamp() > session['expires_at']:
+        return redirect('/refresh-token')
+    
+    headers = {
+        'Authorization': f"Bearer {session['access_token']}"
+    }
+    
+    response = requests.get(API_BASE_URL + "me/player/recently-played?limit=50", headers=headers)
+    playback = response.json()
+    #return jsonify(playback)
+    return render_template('playback.html', playback=playback)
 
 @app.route('/menu')
 def menu():
