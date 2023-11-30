@@ -20,19 +20,9 @@ h1 {
 }
 
 .list-container {
-    display: flex;
-    justify-content: center;
+    display:flexbox ;
 }
 
-.ls-item {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    margin: 10px;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-}
 
 li {
     display: block;
@@ -51,7 +41,7 @@ h3 {
     margin: 20px;
 }
 
-.ls-container{
+.ls-container {
     margin: 50px;
 }
 
@@ -59,10 +49,6 @@ p {
     color: #FFE45E;
     font-family: 'Lucida Grande';
     text-align: center;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    max-width: 120px;
 }
 
 a {
@@ -83,7 +69,6 @@ a.button {
     font-size: 16px;
     border-radius: 60px;
 }
-
 
 a.button:hover {
     background-color: #555;

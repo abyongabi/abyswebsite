@@ -72,10 +72,10 @@ def get_playlists():
         'Authorization': f"Bearer {session['access_token']}"
     }
     
-    response = requests.get(API_BASE_URL + "me/playlists", headers=headers)
+    response = requests.get(API_BASE_URL + "me/playlists?limit=20", headers=headers)
     playlists = response.json()
-    
-    return jsonify(playlists)
+
+    return render_template('playlists.html', playlists=playlists)
 
 
 @app.route('/refresh-token')
@@ -117,6 +117,7 @@ def get_top_tracks_long():
     
     response = requests.get(API_BASE_URL + "me/top/tracks?time_range=long_term&limit=50", headers=headers)
     tracks = response.json()
+    
     return render_template('tracks_disp.html', tracks=tracks, cat_tracks='All Time Favourites')   
 
 @app.route('/tracks/medium')

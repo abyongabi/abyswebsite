@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='playlists.css') }}">
+    <title>Playlists</title>
+</head>
+<body>
+    <h1>Playlists</h1>
+    <div class="container">
+        {% for playlist in playlists['items'] %}
+            <div class="list-container">
+                <li>
+                    <a href="{{ playlist.external_urls.spotify }}" target="_blank">
+                        <img src="{{ playlist.images[0].url }}" alt="{{playlist.name }}" width="100" height="100">
+                    </a>
+                    <p>{{playlist.name}} - {{playlist.owner.display_name}}</p>
+                </li>
+            </div>
+        {% endfor %}
+        <a href="/menu" class="button">Back</a>
+    </div>
+</body>
+</html>
