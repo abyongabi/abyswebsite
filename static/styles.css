@@ -1,5 +1,5 @@
 body {
-    background-color: #81968F;
+    background-color: #68B0AB;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -9,18 +9,47 @@ body {
 }
 
 h1, p {
-    color: #503E2E;
-    font-family: 'Lucida Grande';
+    color: #333;
+    font-family: 'Lucida Grande', sans-serif;
     text-align: center;
+    margin-bottom: 20px;
+}
+
+div{
+    border: 4px solid #C8D5B9;
+    padding: 30px;
+    border-radius: 20px;
+}
+
+h1 {
+    
+    padding: 20px;
+    display: inline-block;
+    border-radius: 10px;
+    position: relative;
+    animation: borderAnimation 2s infinite alternate;
+    margin-bottom: 30px;
+}
+
+@keyframes borderAnimation {
+    0% {
+        border-color: #C8D5B9;
+        transform: scale(1);
+    }
+    100% {
+        border-color: #C8D5B9;
+        transform: scale(1.1);
+    }
 }
 
 a.button {
+    position: relative;
     display: inline-block;
     padding: 15px 25px;
-    background-color: #96BDC6;
-    color: #548072;
+    background-color: #C8D5B9;
+    color: #333;
     text-decoration: none;
-    font-family: 'Lucida Grande';
+    font-family: 'Lucida Grande', sans-serif;
     text-align: center;
     font-size: 16px;
     border-radius: 30px;
@@ -28,5 +57,25 @@ a.button {
 }
 
 a.button:hover {
-    background-color: #555;
+    background-color: #696D7D;
 }
+
+a.button[data-tooltip]::before {
+    content: attr(data-tooltip);
+    position: absolute;
+    bottom: 120%;
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 15px;
+    background-color: #333;
+    color: #fff;
+    border-radius: 8px;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    white-space: nowrap;
+}
+
+a.button[data-tooltip]:hover::before {
+    opacity: 1;
+}
+

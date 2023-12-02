@@ -231,7 +231,24 @@ def menu():
         return redirect('/refresh-token')
     
     return render_template('menu.html')
+
+@app.route('/overview')
+def overview():
+    if 'access_token' not in session:
+        return redirect('/login')
+    
+    if datetime.now().timestamp() > session['expires_at']:
+        return redirect('/refresh-token')
+    
+    headers = {
+        'Authorization': f"Bearer {session['access_token']}"
+    }
+    response = requests.get(API_BASE_URL + "me/top/tracks?time_range=medium_term&limit=50", headers=headers)
+    tracks = response.json()
+    response = requests.get(API_BASE_URL + "me/top/artists?time_range=medium_term&limit=50", headers=headers)
+    artists = response.json()
+    return render_template('overview.html', artists=artists, tracks=tracks)
     
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', debug=True)
+    app.run(host='0.0.0.0', port=5000)
