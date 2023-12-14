@@ -1,5 +1,6 @@
 import requests
 import urllib.parse
+import random
 
 from datetime import datetime, timedelta
 from flask import Flask, redirect, request, jsonify, session, render_template
@@ -14,6 +15,10 @@ REDIRECT_URL = "http://localhost:5000/callback"
 AUTH_URL = "https://accounts.spotify.com/authorize"
 TOKEN_URL = "https://accounts.spotify.com/api/token"
 API_BASE_URL = "https://api.spotify.com/v1/"
+
+counter = 1
+marks = 0
+artists_quiz = None
 
 @app.route('/')
 def index():
@@ -204,6 +209,41 @@ def get_top_artists_short():
     artists = response.json()
     return render_template('artists_disp.html', artists=artists, cat_artists="Recent Artists")
 
+def quiz_generator(ls, x, y):
+    x = random.randint(x, y)
+    y = random.randint(x, y)
+    while x == y:
+        y = random.randint(x, y)
+    if random.randint(0,1) == 1:
+        z = x
+        x = y 
+        y = z
+    return x, y, ls['items'][x], ls['items'][y]
+
+@app.route('/artists/quiz', methods=['GET', 'POST'])
+def artist_quiz():
+    global counter
+    global marks
+    global artists_quiz
+    artists = artists_quiz
+    x, y, artist1, artist2 = quiz_generator(artists, 0, 49)
+    if request.method == 'POST':
+        user_choice = int(request.form['choice'])
+        if user_choice == 1 and x < y:
+            marks += 20
+        if user_choice == 2 and x>y:
+            marks += 20           
+        counter += 1
+        if counter > 5:
+            counter = 1
+            cur_mark = marks
+            marks = 0
+            return render_template('result.html', marks=cur_mark)
+        else:
+            x, y, artist1, artist2 = quiz_generator(artists, 0, 49)
+
+    return render_template('quiz.html', artist1=artist1, artist2=artist2, counter=counter)
+
 
 @app.route('/playback')
 def get_playback():
@@ -231,6 +271,23 @@ def menu():
         return redirect('/refresh-token')
     
     return render_template('menu.html')
+
+@app.route('/menu/quiz')
+def quiz_menu():
+    global artists_quiz
+    if 'access_token' not in session:
+        return redirect('/login')
+
+    if datetime.now().timestamp() > session['expires_at']:
+        return redirect('/refresh-token')
+
+    headers = {
+        'Authorization': f"Bearer {session['access_token']}"
+    }
+    response = requests.get(API_BASE_URL + "me/top/artists?time_range=short_term&limit=50", headers=headers)
+    artists_quiz = response.json()
+    return render_template('quiz_menu.html')
+    
 
 @app.route('/overview')
 def overview():
