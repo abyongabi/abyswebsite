@@ -36,18 +36,21 @@ def login():
         "redirect_uri": REDIRECT_URL,
         "show_dialog": True
     }
-    
     auth_url = f"{AUTH_URL}?{urllib.parse.urlencode(params)}"
-    
     return redirect(auth_url)
 
 
 @app.route('/callback')
 def callback():
+    print('a')
     if 'error' in request.args:
+        print('b')
+        print(request)
+
         return jsonify({"error": request.args['error']})
     
     if 'code' in request.args:
+        print('c')
         req_body = {
             'code': request.args['code'],
             'grant_type': 'authorization_code',
@@ -317,4 +320,4 @@ def memoir():
     
 
 if __name__ == '__main__':
-    app.run()
+    app.run(host='localhost', port=5000)

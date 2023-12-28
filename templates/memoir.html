@@ -1,14 +1,36 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='memoir.css') }}">
-    <title>Spotify</title>
-</head>
-<body>
-    <h1>Welcome to your memoir</h1>
-    <h2>What would you like to tell the world before you die?</h2>
-    <input type="text">
-</body>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="{{ url_for('static', filename='memoir.css') }}"
+    />
+    <title>Memoir</title>
+  </head>
+  <body>
+    <div class="container">
+      <h1>Welcome to your memoir</h1>
+      <h2>What would you like to tell the world before you die?</h2>
+      <div class="burn-container">
+        <textarea id="burning-text"></textarea>
+      </div>
+      <div class="buttons">
+        <a href="/spotify" class="button">Save</a>
+        <a href="#" class="button" onclick="burnText()">Burn</a>
+        <a href="/spotify" class="button">Send</a>
+      </div>
+    </div>
+    <script>
+      function burnText() {
+        const textarea = document.getElementById("burning-text");
+        if (textarea && !textarea.classList.contains("burned")) {
+          textarea.classList.add("burned");
+          textarea.value = ""; 
+        }
+      }
+    </script>
+  </body>
 </html>
