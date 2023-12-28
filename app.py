@@ -63,7 +63,7 @@ def callback():
         session['refresh_token'] =  token_info['refresh_token']
         session['expires_at'] = datetime.now().timestamp() + token_info['expires_in']
         
-        return redirect('/menu')
+        return redirect('/spotify')
     
     
 @app.route('/spotify/playlists')
@@ -275,7 +275,7 @@ def spotify():
     if datetime.now().timestamp() > session['expires_at']:
         return redirect('/refresh-token')
     
-    return render_template('login.html')
+    return render_template('spotify.html')
 
 @app.route('/spotify/quiz')
 def quiz_menu():
