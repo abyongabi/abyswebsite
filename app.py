@@ -5,6 +5,7 @@ import random
 from datetime import datetime, timedelta
 from flask import Flask, redirect, request, jsonify, session, render_template
 
+
 app = Flask(__name__, static_url_path='/static')
 app.secret_key = "1231231231231"
 
@@ -65,7 +66,7 @@ def callback():
         return redirect('/menu')
     
     
-@app.route('/playlists')
+@app.route('/spotify/playlists')
 def get_playlists():
     if 'access_token' not in session:
         return redirect('/login')
@@ -104,11 +105,11 @@ def refresh_token():
     
     return redirect('/playlists')
 
-@app.route('/tracks')
+@app.route('/spotify/tracks')
 def get_top_tracks():
     return render_template('tracks.html')
 
-@app.route('/tracks/long')
+@app.route('/spotify/tracks/long')
 def get_top_tracks_long():
     if 'access_token' not in session:
         return redirect('/login')
@@ -125,7 +126,7 @@ def get_top_tracks_long():
     
     return render_template('tracks_disp.html', tracks=tracks, cat_tracks='All Time Favourites')   
 
-@app.route('/tracks/medium')
+@app.route('/spotify/tracks/medium')
 def get_top_tracks_medium():
     if 'access_token' not in session:
         return redirect('/login')
@@ -141,7 +142,7 @@ def get_top_tracks_medium():
     tracks = response.json()
     return render_template('tracks_disp.html', tracks=tracks, cat_tracks='Memories From Before')    
 
-@app.route('/tracks/short')
+@app.route('/spotify/tracks/short')
 def get_top_tracks_short():
     if 'access_token' not in session:
         return redirect('/login')
@@ -157,11 +158,11 @@ def get_top_tracks_short():
     tracks = response.json()
     return render_template('tracks_disp.html', tracks=tracks, cat_tracks='Recent Tracks')  
   
-@app.route('/artists')
+@app.route('/spotify/artists')
 def get_top_artists():
     return render_template('artists.html')
 
-@app.route('/artists/long')
+@app.route('/spotify/artists/long')
 def get_top_artists_long():
     if 'access_token' not in session:
         return redirect('/login')
@@ -177,7 +178,7 @@ def get_top_artists_long():
     artists = response.json()
     return render_template('artists_disp.html', artists=artists, cat_artists="All Time Favourite")
 
-@app.route('/artists/medium')
+@app.route('/spotify/artists/medium')
 def get_top_artists_medium():
     if 'access_token' not in session:
         return redirect('/login')
@@ -193,7 +194,7 @@ def get_top_artists_medium():
     artists = response.json()
     return render_template('artists_disp.html', artists=artists, cat_artists="Memories From Before")
 
-@app.route('/artists/short')
+@app.route('/spotify/artists/short')
 def get_top_artists_short():
     if 'access_token' not in session:
         return redirect('/login')
@@ -220,7 +221,7 @@ def quiz_generator(ls, x, y):
         y = z
     return x, y, ls['items'][x], ls['items'][y]
 
-@app.route('/artists/quiz', methods=['GET', 'POST'])
+@app.route('/spotify/artists/quiz', methods=['GET', 'POST'])
 def artist_quiz():
     global counter
     global marks
@@ -245,7 +246,7 @@ def artist_quiz():
     return render_template('quiz.html', artist1=artist1, artist2=artist2, counter=counter)
 
 
-@app.route('/playback')
+@app.route('/spotify/playback')
 def get_playback():
     if 'access_token' not in session:
         return redirect('/login')
@@ -264,15 +265,19 @@ def get_playback():
 
 @app.route('/menu')
 def menu():
+    return render_template('menu.html')
+
+@app.route('/spotify')
+def spotify():
     if 'access_token' not in session:
         return redirect('/login')
     
     if datetime.now().timestamp() > session['expires_at']:
         return redirect('/refresh-token')
     
-    return render_template('menu.html')
+    return render_template('login.html')
 
-@app.route('/menu/quiz')
+@app.route('/spotify/quiz')
 def quiz_menu():
     global artists_quiz
     if 'access_token' not in session:
@@ -289,7 +294,7 @@ def quiz_menu():
     return render_template('quiz_menu.html')
     
 
-@app.route('/overview')
+@app.route('/spotify/overview')
 def overview():
     if 'access_token' not in session:
         return redirect('/login')
@@ -305,7 +310,11 @@ def overview():
     response = requests.get(API_BASE_URL + "me/top/artists?time_range=medium_term&limit=50", headers=headers)
     artists = response.json()
     return render_template('overview.html', artists=artists, tracks=tracks)
+
+@app.route('/memoir')
+def memoir():
+    return render_template('memoir.html')
     
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=5000)
+    app.run()
