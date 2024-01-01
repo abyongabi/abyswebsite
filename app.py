@@ -95,18 +95,16 @@ def refresh_token():
     if datetime.now().timestamp() > session['expires_at']:
         req_body = {
             'grant_type': 'refresh_token',
-            'request_token': session['refresh_token'],
+            'refresh_token': session['refresh_token'],
             'client_id': CLIENT_ID,
             'client_secret': CLIENT_SECRET
         }
-        
     response = requests.post(TOKEN_URL, data=req_body)
     new_token_info = response.json()
-    
     session['access_token'] = new_token_info['access_token']
     session['expires_at'] = datetime.now().timestamp() + new_token_info['expires_in']
     
-    return redirect('/playlists')
+    return redirect('/spotify')
 
 @app.route('/spotify/tracks')
 def get_top_tracks():
