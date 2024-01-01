@@ -1,0 +1,82 @@
+body {
+  font-family: "Roboto", sans-serif;
+  background-color: #fae8ca;
+}
+
+.container {
+  max-width: 600px;
+  margin: 30px auto;
+  padding: 20px;
+  border: 1px solid #e3f09b;
+  border-radius: 10px;
+  background-color: #f7d08a;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+h1,
+h2,
+h3 {
+  text-align: center;
+  color: #7d5d05;
+}
+
+label {
+  display: block;
+  margin-top: 15px;
+  color: #666;
+}
+
+input[type="text"],
+input[type="radio"],
+button {
+  width: 100%;
+  padding: 12px;
+  margin-top: 8px;
+  box-sizing: border-box;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  background-color: #f8f8f8;
+  transition: border-color 0.3s ease-in-out;
+}
+
+input[type="text"]:focus,
+input[type="radio"]:focus,
+button:focus {
+  border-color: #eed143;
+}
+
+button {
+  margin-top: 15px;
+  background-color: #d8be8f;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease-in-out;
+}
+
+button:hover {
+  background-color: #b4945e;
+}
+
+.button-container {
+  text-align: center;
+}
+
+.button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 20px;
+  padding: 12px 20px;
+  background-color: #333;
+  color: #fff;
+  text-decoration: none;
+  font-family: "Roboto", sans-serif;
+  border-radius: 5px;
+  transition: background-color 0.3s ease-in-out;
+}
+
+.button:hover {
+  background-color: #555;
+}

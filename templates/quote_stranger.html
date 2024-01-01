@@ -8,13 +8,13 @@
       type="text/css"
       href="{{ url_for('static', filename='quote.css') }}"
     />
-    <title>Quote For Everyone</title>
+    <title>Quote For Stranger</title>
   </head>
   <body>
     <div class="container">
-      <h1>Hey you,</h1>
-      <h2>I wish you all the best I really do.</h2>
-      <a href="/quote" class="button">Back</a>
+      <h1>Hi stranger,</h1>
+      <h2>{{line}}</h2>
+      <!-- <a href="/quote" class="button">Back</a> -->
     </div>
 
   </body>

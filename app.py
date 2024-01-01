@@ -21,6 +21,31 @@ counter = 1
 marks = 0
 artists_quiz = None
 keycode = ['0526', '0923']
+positive_movie_quotes = [
+    "Just keep swimming. - Dory, Finding Nemo",
+    "You have within you right now, everything you need to deal with whatever the world can throw at you. - The Martian",
+    "To see the world, things dangerous to come to, to see behind walls, to draw closer, to find each other and to feel. That is the purpose of life. - The Secret Life of Walter Mitty",
+    "Life is not the amount of breaths you take, it’s the moments that take your breath away. - Hitch",
+    "Don't let anyone ever make you feel like you don't deserve what you want. - 10 Things I Hate About You",
+    "The only way to achieve the impossible is to believe it is possible. - Alice in Wonderland",
+    "Life moves pretty fast. If you don’t stop and look around once in a while, you could miss it. - Ferris Bueller's Day Off",
+    "The flower that blooms in adversity is the most rare and beautiful of all. - Mulan",
+    "Happiness can be found even in the darkest of times if one only remembers to turn on the light. - Harry Potter and the Prisoner of Azkaban",
+    "Oh yes, the past can hurt. But the way I see it, you can either run from it or learn from it. - The Lion King"
+]
+
+negative_movie_quotes = [
+    "The greatest trick the Devil ever pulled was convincing the world he didn't exist. - The Usual Suspects",
+    "Life's not a song. Life isn't bliss, life is just this. It's living. - Rent",
+    "So it's not gonna be easy. It's going to be really hard; we're gonna have to work at this every day, but I want to do that because I want you. I want all of you, forever, every day. - The Notebook",
+    "The things you own end up owning you. - Fight Club",
+    "We accept the love we think we deserve. - The Perks of Being a Wallflower",
+    "I wish I knew how to quit you. - Brokeback Mountain",
+    "All those moments will be lost in time, like tears in rain. - Blade Runner",
+    "People die at the fair. - Something Wicked This Way Comes",
+    "I've seen things you people wouldn't believe. Attack ships on fire off the shoulder of Orion. - Blade Runner",
+    "The horror... the horror. - Apocalypse Now"
+]
 
 
 
@@ -342,11 +367,13 @@ def process_verify_form():
 
 @app.route('/quote/bestfriend')
 def quote_bestfriend():
-    return render_template('quote_bestfriend.html')
+    line = positive_movie_quotes[random.randint(0,9)]
+    return render_template('quote_bestfriend.html', line = line)
 
-@app.route('/quote/society')
-def quote_soceity():
-    return render_template('quote_soceity.html')
+@app.route('/quote/stranger')
+def quote_stranger():
+    line = negative_movie_quotes[random.randint(0,9)]
+    return render_template('quote_stranger.html', line = line)
 
 if __name__ == '__main__':
     app.run(host='localhost', port=5000)

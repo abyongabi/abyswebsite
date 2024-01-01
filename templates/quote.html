@@ -15,19 +15,22 @@
       <h1>Get Your Quote Of The Day</h1>
       <h2>What is your name?</h2>
       <form action="{{ url_for('process_form') }}" method="post">
-        <label for="fname">Name:</label><br />
         <input type="text" id="name" name="name" required /><br />
-        <label for="bfr">Are you Aby's best friend:</label><br />
+        <h2>Are you Aby's best friend:</h2><br />
 
         <input type="radio" id="tbfr" name="bfr" value="true" required />
-        <label for="tbfr">Yes</label><br />
+        <h3>Yes</h3><br/>
 
         <input type="radio" id="fbfr" name="bfr" value="false" required />
-        <label for="fbfr">No</label><br />
+        <h3>No</h3><br/>
 
-        <button type="submit">Enter</button>
+
+        <button type="submit"><h2>Enter</h1></button>
       </form>
     </div>
-    <a href="/menu" class="button">Back</a>
+    <!-- <div class="button-container">
+      <a href="#" class="button">Back</a>
+    </div> -->
+    
   </body>
 </html>
