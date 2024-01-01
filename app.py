@@ -21,6 +21,8 @@ counter = 1
 marks = 0
 artists_quiz = None
 
+
+
 @app.route('/')
 def index():
     return render_template('index.html')
@@ -315,7 +317,15 @@ def overview():
 @app.route('/memoir')
 def memoir():
     return render_template('memoir.html')
-    
+
+@app.route('/quote')
+def quote():
+    key = ['0526', '0923']
+    return render_template('quote.html', key = key)
+
+@app.route('/process_form', methods=['POST'])
+def process_form():
+    return redirect('/memoir')
 
 if __name__ == '__main__':
     app.run(host='localhost', port=5000)

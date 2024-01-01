@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="{{ url_for('static', filename='memoir.css') }}"
+    />
+    <title>Quote</title>
+  </head>
+  <body>
+    <div class="container">
+      <h1>Get Your Quote Of The Day</h1>
+      <h2>What is your name?</h2>
+      <form id="quoteForm" onsubmit="return validateForm()">
+        <label for="fname">Name:</label><br />
+        <input type="text" id="name" name="name" required /><br />
+        <label for="bfr">Are you Aby's best friend:</label><br />
+
+        <input type="radio" id="tbfr" name="bfr" value="true" required />
+        <label for="tbfr">Yes</label><br />
+
+        <input type="radio" id="fbfr" name="bfr" value="false" required />
+        <label for="fbfr">No</label><br />
+
+        <div class="secret-key-input" style="display: none">
+          <label for="secretKey">Enter Secret Key:</label><br />
+          <input type="text" id="secretKey" name="secretKey" /><br />
+        </div>
+
+        <button type="submit">Check Input</button>
+      </form>
+    </div>
+
+    <script>
+      async function validateForm() {
+        var name = document.getElementById("name").value;
+        var tbfr = document.getElementById("tbfr").checked;
+        var secretKeyInput = document.getElementById("secretKey").value;
+        var secretKeyList = ["0526", "0923"];
+
+        if (tbfr && secretKeyInput && !secretKeyList.includes(secretKeyInput)) {
+          alert("Invalid secret key! Please enter a valid key.");
+          return false;
+        }
+
+        const formData = new FormData(document.getElementById("quoteForm"));
+        const response = await fetch("/process_form", {
+          method: "POST",
+          body: formData,
+        });
+
+        if (response.ok) {
+          window.location.href = "/memoir";
+        } else {
+          alert("Failed to submit form. Please try again.");
+        }
+
+        return false;
+      }
+
+      var yesRadio = document.getElementById("tbfr");
+      var secretKeyInput = document.querySelector(".secret-key-input");
+
+      yesRadio.addEventListener("change", function () {
+        if (yesRadio.checked) {
+          secretKeyInput.style.display = "block";
+        } else {
+          secretKeyInput.style.display = "none";
+        }
+      });
+    </script>
+  </body>
+</html>
