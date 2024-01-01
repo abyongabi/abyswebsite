@@ -20,6 +20,7 @@ API_BASE_URL = "https://api.spotify.com/v1/"
 counter = 1
 marks = 0
 artists_quiz = None
+keycode = ['0526', '0923']
 
 
 
@@ -323,9 +324,29 @@ def quote():
     key = ['0526', '0923']
     return render_template('quote.html', key = key)
 
-@app.route('/process_form', methods=['POST'])
+@app.route('/quote/process_form', methods=['POST'])
 def process_form():
-    return redirect('/memoir')
+    if request.form['bfr'] == 'true':
+        return redirect('/quote/verify')
+    return redirect('/quote/soceity')
+
+@app.route('/quote/verify')
+def quote_verify():
+    return render_template('quote_verify.html')
+
+@app.route('/quote/verify/bestfried', methods = ['POST'])
+def process_verify_form():
+    if request.form['code'] in keycode:
+        return redirect('/quote/bestfriend')
+    return redirect('/quote')
+
+@app.route('/quote/bestfriend')
+def quote_bestfriend():
+    return render_template('quote_bestfriend.html')
+
+@app.route('/quote/society')
+def quote_soceity():
+    return render_template('quote_soceity.html')
 
 if __name__ == '__main__':
     app.run(host='localhost', port=5000)
