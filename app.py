@@ -328,7 +328,7 @@ def quote():
 def process_form():
     if request.form['bfr'] == 'true':
         return redirect('/quote/verify')
-    return redirect('/quote/soceity')
+    return redirect('/quote/society')
 
 @app.route('/quote/verify')
 def quote_verify():
@@ -338,7 +338,7 @@ def quote_verify():
 def process_verify_form():
     if request.form['code'] in keycode:
         return redirect('/quote/bestfriend')
-    return redirect('/quote')
+    return render_template('quote_fail.html')
 
 @app.route('/quote/bestfriend')
 def quote_bestfriend():
