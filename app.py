@@ -376,4 +376,4 @@ def quote_stranger():
     return render_template('quote_stranger.html', line = line)
 
 if __name__ == '__main__':
-    app.run(host='localhost', port=5000)
+    app.run()
