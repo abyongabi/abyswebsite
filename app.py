@@ -1,18 +1,23 @@
 import requests
 import urllib.parse
 import random
+import os
 
 from datetime import datetime, timedelta
 from flask import Flask, redirect, request, jsonify, session, render_template
+from dotenv import load_dotenv
+import os
 
 
 app = Flask(__name__, static_url_path='/static')
-app.secret_key = "1231231231231"
 
-CLIENT_ID = "8782189721584222a5fec8051ba70281"
-CLIENT_SECRET = "33ba989f44994641a7c6673b752acb5b"
+load_dotenv()
+app.secret_key = os.getenv("app.secret_key")
+CLIENT_ID = os.getenv("CLIENT_ID")
+CLIENT_SECRET = os.getenv("CLIENT_SECRET")
+
+
 REDIRECT_URL = "http://localhost:5000/callback"
-
 AUTH_URL = "https://accounts.spotify.com/authorize"
 TOKEN_URL = "https://accounts.spotify.com/api/token"
 API_BASE_URL = "https://api.spotify.com/v1/"
@@ -56,7 +61,7 @@ def index():
 @app.route('/login')
 def login():
     scope = 'user-read-private user-read-email user-read-recently-played user-top-read user-read-playback-position'
-    
+
     params = {
         "client_id": CLIENT_ID,
         "response_type": "code",
@@ -64,21 +69,18 @@ def login():
         "redirect_uri": REDIRECT_URL,
         "show_dialog": True
     }
+
     auth_url = f"{AUTH_URL}?{urllib.parse.urlencode(params)}"
+
     return redirect(auth_url)
 
 
 @app.route('/callback')
 def callback():
-    print('a')
     if 'error' in request.args:
-        print('b')
-        print(request)
-
         return jsonify({"error": request.args['error']})
     
     if 'code' in request.args:
-        print('c')
         req_body = {
             'code': request.args['code'],
             'grant_type': 'authorization_code',
@@ -89,11 +91,11 @@ def callback():
         
         response = requests.post(TOKEN_URL, data=req_body)
         token_info = response.json()
-
+        print(token_info)
         session['access_token'] = token_info['access_token']
         session['refresh_token'] =  token_info['refresh_token']
         session['expires_at'] = datetime.now().timestamp() + token_info['expires_in']
-        
+        print('c')
         return redirect('/spotify')
     
     
@@ -376,4 +378,4 @@ def quote_stranger():
     return render_template('quote_stranger.html', line = line)
 
 if __name__ == '__main__':
-    app.run()
+    app.run(host="0.0.0.0", debug=True)
